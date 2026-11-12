@@ -1,0 +1,111 @@
+/* AlphaOmega School Management - layout and theme.
+   Visual language follows the Eduman reference: dark sidebar, blue primary (#006DF0), light grey canvas. */
+:root {
+  --ao-primary: #006DF0;
+  --ao-primary-dark: #0058c4;
+  --ao-sidebar: #263042;
+  --ao-sidebar-dark: #1d2636;
+  --ao-bg: #F6F8FA;
+  --ao-border: #e3e8ef;
+  --bs-primary: #006DF0;
+  --bs-primary-rgb: 0, 109, 240;
+  --bs-link-color: #006DF0;
+  --bs-link-color-rgb: 0, 109, 240;
+  --bs-link-hover-color: #0058c4;
+  --bs-body-bg: #F6F8FA;
+  --bs-body-font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --bs-border-radius: .45rem;
+}
+body { background: var(--ao-bg); font-size: .92rem; color: #1f2937; }
+a { text-decoration: none; }
+.btn-primary { --bs-btn-bg: #006DF0; --bs-btn-border-color: #006DF0; --bs-btn-hover-bg: #0058c4; --bs-btn-hover-border-color: #0058c4; --bs-btn-active-bg: #004fb0; --bs-btn-active-border-color: #004fb0; --bs-btn-disabled-bg: #006DF0; --bs-btn-disabled-border-color: #006DF0; }
+.btn-outline-primary { --bs-btn-color: #006DF0; --bs-btn-border-color: #006DF0; --bs-btn-hover-bg: #006DF0; --bs-btn-hover-border-color: #006DF0; --bs-btn-active-bg: #006DF0; --bs-btn-active-border-color: #006DF0; }
+.text-bg-primary, .bg-primary { background-color: #006DF0 !important; }
+.text-primary { color: #006DF0 !important; }
+.page-item.active .page-link { background-color: #006DF0; border-color: #006DF0; color: #fff; }
+.page-link { color: #006DF0; }
+.form-control:focus, .form-select:focus { border-color: #5aa2f7; box-shadow: 0 0 0 .2rem rgba(0,109,240,.15); }
+.form-label { font-weight: 500; margin-bottom: .25rem; }
+.required::after { content: " *"; color: #d80027; }
+
+/* ---- shell ---- */
+.app-shell { display: flex; min-height: 100vh; }
+.sidebar { width: 252px; flex: 0 0 252px; background: var(--ao-sidebar); color: #cbd5e1; display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; overflow-y: auto; z-index: 1040; }
+.brand { display: flex; align-items: center; gap: .7rem; padding: 1rem 1.1rem; background: var(--ao-sidebar-dark); color: #fff; }
+.brand-mark { width: 38px; height: 38px; border-radius: 10px; background: var(--ao-primary); display: grid; place-items: center; font-size: 1.1rem; }
+.brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+.brand-text small { color: #94a3b8; font-size: .72rem; }
+.side-nav { padding: .5rem .6rem 1rem; flex: 1; }
+.nav-group { text-transform: uppercase; letter-spacing: .08em; font-size: .68rem; color: #7b8aa3; padding: 1rem .6rem .3rem; }
+.nav-link-item { display: flex; align-items: center; gap: .7rem; padding: .5rem .7rem; border-radius: .45rem; color: #cbd5e1; margin-bottom: 2px; }
+.nav-link-item i { width: 1.15rem; text-align: center; opacity: .85; }
+.nav-link-item:hover { background: rgba(255,255,255,.07); color: #fff; }
+.nav-link-item.active { background: var(--ao-primary); color: #fff; }
+.side-foot { padding: .7rem 1rem; font-size: .72rem; color: #7b8aa3; border-top: 1px solid rgba(255,255,255,.07); }
+.main-col { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.topbar { background: #fff; border-bottom: 1px solid var(--ao-border); padding: .5rem 1.25rem; display: flex; align-items: center; gap: .75rem; position: sticky; top: 0; z-index: 1030; }
+.topbar-title { font-weight: 600; color: #334155; }
+.year-form { display: flex; align-items: center; }
+.year-form select { min-width: 150px; }
+.content { padding: 1.25rem 1.5rem 2rem; flex: 1; }
+.app-foot { text-align: center; color: #94a3b8; font-size: .75rem; padding: .8rem; }
+#sidebarToggle { display: none; }
+.sidebar-backdrop { display: none; }
+@media (max-width: 991.98px) {
+  .sidebar { position: fixed; left: -270px; transition: left .2s ease; }
+  .sidebar.open { left: 0; }
+  .sidebar-backdrop.show { display: block; position: fixed; inset: 0; background: rgba(15,23,42,.45); z-index: 1035; }
+  #sidebarToggle { display: inline-block; }
+  .content { padding: 1rem; }
+}
+
+/* ---- components ---- */
+.page-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .75rem; margin-bottom: 1rem; }
+.page-head h1 { font-size: 1.35rem; margin: 0; font-weight: 600; }
+.page-head .sub { color: #64748b; font-size: .85rem; }
+.card { border: 1px solid var(--ao-border); border-radius: .6rem; box-shadow: 0 1px 2px rgba(16,24,40,.04); }
+.card-header { background: #fff; font-weight: 600; border-bottom: 1px solid var(--ao-border); }
+.stat-card { display: flex; gap: .9rem; align-items: center; padding: 1rem 1.1rem; }
+.stat-icon { width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; font-size: 1.15rem; color: #fff; flex: 0 0 46px; }
+.stat-value { font-size: 1.45rem; font-weight: 700; line-height: 1.1; }
+.stat-label { color: #64748b; font-size: .8rem; }
+.bg-ao-blue { background: #006DF0; } .bg-ao-green { background: #65b12d; } .bg-ao-orange { background: #ffb606; }
+.bg-ao-red { background: #d80027; } .bg-ao-purple { background: #933EC5; } .bg-ao-slate { background: #475569; }
+.table > :not(caption) > * > * { padding: .55rem .75rem; }
+.table thead th { background: #f1f5f9; font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; color: #475569; white-space: nowrap; border-bottom: 1px solid var(--ao-border); }
+.table-hover tbody tr:hover { background: #f8fbff; }
+.empty-state { text-align: center; padding: 2.2rem 1rem; color: #64748b; }
+.empty-state i { font-size: 2.2rem; color: #b6c2d3; margin-bottom: .6rem; display: block; }
+.filter-bar { background: #fff; border: 1px solid var(--ao-border); border-radius: .6rem; padding: .85rem 1rem; margin-bottom: 1rem; }
+.avatar { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; background: #e2e8f0; display: inline-grid; place-items: center; color: #64748b; vertical-align: middle; }
+.photo-lg { width: 150px; height: 180px; object-fit: cover; border-radius: .6rem; background: #e2e8f0; border: 1px solid var(--ao-border); display: grid; place-items: center; color: #94a3b8; font-size: 3rem; }
+.money { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.text-end.money, td.money { text-align: right; }
+.reversed td { text-decoration: line-through; color: #94a3b8; }
+.reversed td .badge { text-decoration: none; }
+.kv { display: grid; grid-template-columns: 170px 1fr; gap: .35rem 1rem; }
+.kv dt { color: #64748b; font-weight: 500; } .kv dd { margin: 0; }
+@media (max-width: 575.98px) { .kv { grid-template-columns: 1fr; } .kv dt { margin-top: .5rem; } }
+.nav-tabs .nav-link.active { color: var(--ao-primary); font-weight: 600; }
+.marks-input { width: 90px; text-align: right; }
+.login-wrap { min-height: 100vh; display: grid; place-items: center; background: linear-gradient(135deg, #0b2a55 0%, #006DF0 100%); padding: 1rem; }
+.login-card { width: 100%; max-width: 410px; border: 0; border-radius: .9rem; box-shadow: 0 18px 50px rgba(0,0,0,.25); }
+.login-card .brand-mark { width: 54px; height: 54px; font-size: 1.5rem; margin: 0 auto .6rem; color: #fff; }
+
+/* ---- print ---- */
+.print-body { background: #fff; }
+.print-toolbar { padding: .6rem 1rem; background: #f1f5f9; border-bottom: 1px solid var(--ao-border); display: flex; gap: .5rem; }
+.print-sheet { max-width: 900px; margin: 1rem auto; padding: 0 1rem; }
+.receipt { border: 2px solid #1f2937; padding: 1.2rem 1.4rem; }
+.receipt h2 { font-size: 1.3rem; margin: 0; }
+.receipt .rcpt-title { letter-spacing: .12em; text-transform: uppercase; font-weight: 700; }
+.receipt .stamp-reversed { color: #d80027; border: 3px solid #d80027; display: inline-block; padding: .15rem .8rem; font-weight: 800; transform: rotate(-6deg); letter-spacing: .1em; }
+@media print {
+  .no-print, .sidebar, .topbar, .app-foot, .sidebar-backdrop { display: none !important; }
+  body, .print-body { background: #fff !important; font-size: 11pt; }
+  .content { padding: 0 !important; }
+  .card { border: 0; box-shadow: none; }
+  .print-sheet { max-width: none; margin: 0; padding: 0; }
+  a { color: inherit; }
+  .table thead th { background: #eee !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}

@@ -1,0 +1,24 @@
+<?php use App\Core\{Money, Ui}; use App\Services\FeeService; ?>
+<div class="page-head"><div><h1>Payments</h1><div class="sub">Receipts for <?= e($year['name'] ?? '-') ?>. Reversed receipts stay listed and are excluded from totals.</div></div>
+  <?php if (can('payments.record')): ?><a class="btn btn-primary" href="<?= e(url('payments', 'record')) ?>"><i class="fa-solid fa-plus me-1"></i>Record payment</a><?php endif; ?></div>
+<form class="filter-bar" method="get" action="<?= e(base_path() . '/index.php') ?>"><input type="hidden" name="m" value="payments">
+  <div class="row g-2 align-items-end">
+    <div class="col-md-3"><label class="form-label" for="q">Search</label><input class="form-control" id="q" name="q" value="<?= e($f['q']) ?>" placeholder="Receipt, student, reference"></div>
+    <div class="col-6 col-md-2"><label class="form-label" for="from">From</label><input class="form-control" type="date" id="from" name="from" value="<?= e($f['from']) ?>"></div>
+    <div class="col-6 col-md-2"><label class="form-label" for="to">To</label><input class="form-control" type="date" id="to" name="to" value="<?= e($f['to']) ?>"></div>
+    <div class="col-6 col-md-2"><label class="form-label" for="class">Class</label><select class="form-select" id="class" name="class" data-sections-target="#section"><?= Ui::options($classes, 'id', 'name', $f['class_id'], 'All') ?></select></div>
+    <div class="col-6 col-md-3"><label class="form-label" for="section">Section</label><select class="form-select" id="section" name="section"><?= Ui::sectionOptions($sections, $f['section_id'], 'All') ?></select></div>
+    <div class="col-6 col-md-3"><label class="form-label" for="category">Category</label><select class="form-select" id="category" name="category"><option value="">All</option><?php foreach (FeeService::CATEGORIES as $k => $l): ?><option value="<?= e($k) ?>"<?= selected($k, $f['category']) ?>><?= e($l) ?></option><?php endforeach; ?></select></div>
+    <div class="col-6 col-md-3"><label class="form-label" for="method">Method</label><select class="form-select" id="method" name="method"><option value="">All</option><?php foreach (FeeService::METHODS as $k => $l): ?><option value="<?= e($k) ?>"<?= selected($k, $f['method']) ?>><?= e($l) ?></option><?php endforeach; ?></select></div>
+    <div class="col-6 col-md-3"><label class="form-label" for="status">Status</label><select class="form-select" id="status" name="status"><option value="">All</option><option value="valid"<?= selected('valid', $f['status']) ?>>Valid</option><option value="reversed"<?= selected('reversed', $f['status']) ?>>Reversed</option></select></div>
+    <div class="col-6 col-md-3 d-grid"><button class="btn btn-primary">Filter</button></div></div></form>
+<div class="row g-3 mb-3">
+  <div class="col-md-6"><div class="card"><div class="stat-card"><div class="stat-icon bg-ao-green"><i class="fa-solid fa-circle-check"></i></div><div><div class="stat-value fs-5"><?= e(money($totals['valid']['amt'])) ?></div><div class="stat-label">Collected (<?= (int) $totals['valid']['n'] ?> valid receipts, filters applied)</div></div></div></div></div>
+  <div class="col-md-6"><div class="card"><div class="stat-card"><div class="stat-icon bg-ao-red"><i class="fa-solid fa-rotate-left"></i></div><div><div class="stat-value fs-5"><?= e(money($totals['reversed']['amt'])) ?></div><div class="stat-label">Reversed (<?= (int) $totals['reversed']['n'] ?>) - not counted</div></div></div></div></div></div>
+<div class="card"><?php if (!$rows): ?><?= Ui::empty('receipt', 'No payments found') ?><?php else: ?>
+  <div class="table-responsive"><table class="table table-hover align-middle mb-0"><thead><tr><th>Date</th><th>Receipt</th><th>Student</th><th>Class</th><th>For</th><th>Method</th><th class="text-end">Amount</th><th>Status</th></tr></thead><tbody>
+  <?php foreach ($rows as $p): ?><tr class="<?= $p['status'] === 'reversed' ? 'reversed' : '' ?>"><td><?= e(dmy($p['payment_date'])) ?></td><td><a class="fw-semibold" href="<?= e(url('payments', 'receipt', ['id' => $p['id']])) ?>"><?= e($p['receipt_no']) ?></a></td>
+    <td><?= e($p['student_name']) ?><div class="small text-muted">Adm <?= e($p['admission_no']) ?></div></td><td><?= e($p['class_name'] ? $p['class_name'] . '-' . $p['section_name'] : '') ?></td>
+    <td><?= e(FeeService::CATEGORIES[$p['category']]) ?></td><td><?= e(FeeService::METHODS[$p['method']]) ?><?= $p['reference_no'] ? '<div class="small text-muted">' . e($p['reference_no']) . '</div>' : '' ?></td>
+    <td class="money"><?= e(money(Money::fromDb($p['amount']))) ?></td><td><?= $p['status'] === 'valid' ? Ui::badge('Valid', 'success') : Ui::badge('Reversed', 'danger') ?></td></tr><?php endforeach; ?></tbody></table></div>
+  <div class="card-footer bg-white d-flex justify-content-between"><span class="small text-muted"><?= number_format($pager->total) ?> receipts</span><?= Ui::pagination($pager) ?></div><?php endif; ?></div>

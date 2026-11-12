@@ -1,0 +1,8 @@
+Options -Indexes
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+</IfModule>
+# Never serve dotfiles, SQL, logs or backups even if one lands here by mistake.
+<FilesMatch "\.(sql|log|bak|aosbak|ini|lock|md)$">
+    Require all denied
+</FilesMatch>

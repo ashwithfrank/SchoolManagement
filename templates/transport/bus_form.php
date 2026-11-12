@@ -1,0 +1,13 @@
+<?php use App\Core\Ui; $v = fn ($k) => e($d[$k] ?? ''); ?>
+<div class="page-head"><h1><?= $bus ? 'Edit bus ' . e($bus['bus_code']) : 'Add bus' ?></h1><a class="btn btn-outline-secondary btn-sm" href="<?= e(url('transport', 'buses')) ?>">Back</a></div>
+<form method="post" class="card"><div class="card-body"><?= csrf_field() ?><div class="row g-3">
+  <div class="col-md-4"><label class="form-label required" for="bus_code">Bus ID</label><input class="form-control" id="bus_code" name="bus_code" required maxlength="20" value="<?= $v('bus_code') ?>"></div>
+  <div class="col-md-4"><label class="form-label required" for="vehicle_no">Vehicle number</label><input class="form-control" id="vehicle_no" name="vehicle_no" required maxlength="20" placeholder="KA 01 AB 1234" value="<?= $v('vehicle_no') ?>"></div>
+  <div class="col-md-4"><label class="form-label" for="capacity">Seating capacity (optional)</label><input class="form-control" id="capacity" name="capacity" inputmode="numeric" maxlength="3" value="<?= $v('capacity') ?>"></div>
+  <div class="col-md-6"><label class="form-label" for="driver_name">Driver name</label><input class="form-control" id="driver_name" name="driver_name" maxlength="120" value="<?= $v('driver_name') ?>"></div>
+  <div class="col-md-6"><label class="form-label" for="driver_phone">Driver phone</label><input class="form-control" id="driver_phone" name="driver_phone" maxlength="20" value="<?= $v('driver_phone') ?>"></div>
+  <div class="col-md-6"><label class="form-label" for="insurance_expiry">Insurance expiry date</label><input class="form-control" type="date" id="insurance_expiry" name="insurance_expiry" value="<?= e(substr((string) ($d['insurance_expiry'] ?? ''), 0, 10)) ?>"></div>
+  <div class="col-md-6"><label class="form-label" for="fc_expiry">Fitness certificate (FC) expiry date</label><input class="form-control" type="date" id="fc_expiry" name="fc_expiry" value="<?= e(substr((string) ($d['fc_expiry'] ?? ''), 0, 10)) ?>"></div>
+</div></div><div class="card-footer bg-white d-flex justify-content-between"><button class="btn btn-primary"><i class="fa-solid fa-floppy-disk me-1"></i>Save bus</button>
+  <?php if ($bus): ?><button class="btn btn-outline-secondary" name="op" value="toggle" formnovalidate form="toggleForm"><?= $bus['is_active'] ? 'Mark inactive' : 'Mark active' ?></button><?php endif; ?></div></form>
+<?php if ($bus): ?><form id="toggleForm" method="post"<?= $bus['is_active'] ? ' data-confirm="Mark this bus inactive? Existing assignments stay in history."' : '' ?>><?= csrf_field() ?><input type="hidden" name="op" value="toggle"><input type="hidden" name="active" value="<?= $bus['is_active'] ? 0 : 1 ?>"></form><?php endif; ?>

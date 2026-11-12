@@ -1,0 +1,11 @@
+<?php use App\Core\{Money, Ui}; $v = fn ($k) => e($d[$k] ?? ''); ?>
+<div class="page-head"><div><h1>Assign student to bus</h1><div class="sub">Academic year <?= e($year['name']) ?>. The student must already be enrolled in this year.</div></div><a class="btn btn-outline-secondary btn-sm" href="<?= e(url('transport', 'assignments')) ?>">Back</a></div>
+<form method="post" class="card" style="max-width:820px"><div class="card-body"><?= csrf_field() ?><div class="row g-3">
+  <div class="col-12"><?= \App\Core\View::partial('components/student_picker', ['name' => 'student_id', 'label' => 'Student', 'selected' => $selected, 'required' => true]) ?></div>
+  <div class="col-md-6"><label class="form-label required" for="bus_id">Bus</label><select class="form-select" id="bus_id" name="bus_id" required><option value="">Select bus</option>
+    <?php foreach ($buses as $b): ?><option value="<?= e($b['id']) ?>"<?= selected($b['id'], $d['bus_id'] ?? '') ?>><?= e($b['bus_code'] . ' - ' . $b['vehicle_no'] . ' (' . $b['riders'] . ($b['capacity'] ? '/' . $b['capacity'] : '') . ' riders)') ?></option><?php endforeach; ?></select></div>
+  <div class="col-md-6"><label class="form-label required" for="pickup_location">Pickup / drop location</label><input class="form-control" id="pickup_location" name="pickup_location" required maxlength="150" value="<?= $v('pickup_location') ?>"></div>
+  <div class="col-md-4"><label class="form-label" for="distance_km">Distance (km, optional)</label><input class="form-control" id="distance_km" name="distance_km" inputmode="decimal" value="<?= $v('distance_km') ?>"></div>
+  <div class="col-md-4"><label class="form-label required" for="fee">This student's bus fee (₹ for the year)</label><input class="form-control" id="fee" name="fee" inputmode="decimal" required placeholder="e.g. 12000" value="<?= $v('fee') ?>"><div class="form-text">Set per student; other students on the same bus can have a different fee.</div></div>
+  <div class="col-md-4"><label class="form-label required" for="start_date">Start date</label><input class="form-control" type="date" id="start_date" name="start_date" required value="<?= $v('start_date') ?>"></div>
+</div></div><div class="card-footer bg-white"><button class="btn btn-primary">Assign</button></div></form>

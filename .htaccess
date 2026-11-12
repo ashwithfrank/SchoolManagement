@@ -1,0 +1,6 @@
+# Send the bare project URL to the public folder. Everything outside public/ is denied.
+Options -Indexes
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^$ public/ [R=302,L]
+</IfModule>
